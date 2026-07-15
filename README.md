@@ -218,6 +218,14 @@ open a new one so that choco path is set, and run in cmd as **admin**:
 choco install -y neovim git ripgrep wget fd unzip gzip mingw make tree-sitter
 ```
 </details>
+<details><summary>Mac (Homebrew)</summary></details>
+
+I had issues installing tree-sitter-cli via Homebrew, so used cargo
+
+```
+brew install ripgrep fd cargo-binstall font-hack-nerd-font jesseduffield/lazygit/lazygit
+cargo binstall tree-sitter-cli
+```
 <details><summary>WSL (Windows Subsystem for Linux)</summary>
 
 ```
@@ -225,9 +233,9 @@ wsl --install
 wsl
 sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update
-sudo apt install make gcc ripgrep fd-find tree-sitter-cli unzip git xclip neovim
+sudo apt install make gcc ripgrep fd-find tree-sitter-cli unzip git xclip neovim lazygit
+npm install -g tree-sitter-cli
 ```
-Note: tree-sitter-cli may need to be installed via npm, had issues with apt
 </details>
 
 #### Linux Install
@@ -236,9 +244,8 @@ Note: tree-sitter-cli may need to be installed via npm, had issues with apt
 ```
 sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update
-sudo apt install make gcc ripgrep fd-find tree-sitter-cli unzip git xclip neovim
+sudo apt install make gcc ripgrep fd-find tree-sitter-cli unzip git xclip neovim lazygit
 ```
-also need to add lazygit
 </details>
 <details><summary>Debian Install Steps</summary>
 
