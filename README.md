@@ -227,6 +227,7 @@ sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update
 sudo apt install make gcc ripgrep fd-find tree-sitter-cli unzip git xclip neovim
 ```
+Note: tree-sitter-cli may need to be installed via npm, had issues with apt
 </details>
 
 #### Linux Install
@@ -237,6 +238,7 @@ sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update
 sudo apt install make gcc ripgrep fd-find tree-sitter-cli unzip git xclip neovim
 ```
+also need to add lazygit
 </details>
 <details><summary>Debian Install Steps</summary>
 
