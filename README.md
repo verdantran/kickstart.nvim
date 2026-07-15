@@ -233,8 +233,10 @@ wsl --install
 wsl
 sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update
-sudo apt install make gcc ripgrep fd-find tree-sitter-cli unzip git xclip neovim lazygit
+sudo apt install make gcc ripgrep fd-find tree-sitter-cli unzip git xclip neovim 
 npm install -g tree-sitter-cli
+sudo snap install go  --classic
+go install github.com/jesseduffield/lazygit@latest
 ```
 </details>
 
@@ -244,7 +246,10 @@ npm install -g tree-sitter-cli
 ```
 sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update
-sudo apt install make gcc ripgrep fd-find tree-sitter-cli unzip git xclip neovim lazygit
+sudo apt install make gcc ripgrep fd-find tree-sitter-cli unzip git xclip neovim 
+npm install -g tree-sitter-cli
+sudo snap install go  --classic
+go install github.com/jesseduffield/lazygit@latest
 ```
 </details>
 <details><summary>Debian Install Steps</summary>
