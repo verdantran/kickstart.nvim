@@ -12,8 +12,8 @@ vim.keymap.set('n', '\\', '<Cmd>Neotree reveal<CR>', { desc = 'NeoTree reveal', 
 require('neo-tree').setup {
   filesystem = {
     filtered_items = {
-      visible = true,          -- show filtered items (dimmed) rather than hiding them
-      hide_dotfiles = false,   -- treat dotfiles as normal, fully-visible items
+      visible = true, -- show filtered items (dimmed) rather than hiding them
+      hide_dotfiles = false, -- treat dotfiles as normal, fully-visible items
       hide_gitignored = false, -- optional: also show gitignored files
     },
     follow_current_file = {

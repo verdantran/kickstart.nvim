@@ -492,8 +492,7 @@ do
 
   -- ... and there is more!
   --  Check out: https://github.com/nvim-mini/mini.nvim
-
-  end
+end
 
 -- ============================================================
 -- SECTION 5: SEARCH & NAVIGATION
@@ -547,8 +546,8 @@ do
     -- },
     pickers = {
       find_files = {
-        hidden = true
-      }
+        hidden = true,
+      },
     },
     extensions = {
       ['ui-select'] = { require('telescope.themes').get_dropdown() },

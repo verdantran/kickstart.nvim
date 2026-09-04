@@ -21,9 +21,7 @@ local function blend(fg, bg, alpha)
   end
   local r1, g1, b1 = parts(fg)
   local r2, g2, b2 = parts(bg)
-  local function mix(a, b)
-    return math.floor(a * alpha + b * (1 - alpha) + 0.5)
-  end
+  local function mix(a, b) return math.floor(a * alpha + b * (1 - alpha) + 0.5) end
   return ('#%02x%02x%02x'):format(mix(r1, r2), mix(g1, g2), mix(b1, b2))
 end
 
@@ -35,9 +33,7 @@ local function groups()
   local ci = cfg.italic_comments
 
   local function halo(accent)
-    if cfg.transparent or cfg.keyword_halo <= 0 then
-      return nil
-    end
+    if cfg.transparent or cfg.keyword_halo <= 0 then return nil end
     return blend(accent, p.bg, cfg.keyword_halo)
   end
   local kw, kw_err = halo(p.orange), halo(p.red)
@@ -496,17 +492,11 @@ local terminal = {
   p.fg_bright,
 }
 
-function M.setup(opts)
-  M.config = vim.tbl_deep_extend('force', M.config, opts or {})
-end
+function M.setup(opts) M.config = vim.tbl_deep_extend('force', M.config, opts or {}) end
 
 function M.load()
-  if vim.g.colors_name then
-    vim.cmd 'highlight clear'
-  end
-  if vim.fn.exists 'syntax_on' == 1 then
-    vim.cmd 'syntax reset'
-  end
+  if vim.g.colors_name then vim.cmd 'highlight clear' end
+  if vim.fn.exists 'syntax_on' == 1 then vim.cmd 'syntax reset' end
 
   vim.o.background = 'dark'
   vim.g.colors_name = 'industrial-theme'
