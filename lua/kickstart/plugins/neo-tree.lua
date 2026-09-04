@@ -16,6 +16,12 @@ require('neo-tree').setup {
       hide_dotfiles = false,   -- treat dotfiles as normal, fully-visible items
       hide_gitignored = false, -- optional: also show gitignored files
     },
+    follow_current_file = {
+      enabled = true,
+      leave_dirs_open = false,
+    },
+    bind_to_cwd = false, -- don't chase the tree root to the current file's project
+    use_libuv_file_watcher = true,
     window = {
       mappings = {
         ['\\'] = 'close_window',
