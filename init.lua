@@ -86,7 +86,7 @@ P.S. You can delete this when you're done too. It's your config now! :)
 
 -- ============================================================
 -- SECTION 1: OPTIONS
--- Core Neovim settings, leaders, options, basic keymaps, basic autocmds
+-- Core Neovim settings, leaders, options
 -- ============================================================
 do
   -- Enable faster startup by caching compiled Lua modules
@@ -191,8 +191,8 @@ do
 end
 
 -- ============================================================
--- SECTION 2: KEYMAPS
--- basic keymaps
+-- SECTION 2: KEYMAPS & AUTOCMDS
+-- basic keymaps, basic autocmds
 -- ============================================================
 do
   -- [[ Basic Keymaps ]]
@@ -368,7 +368,8 @@ do
   -- See `:help gitsigns` to understand what each configuration key does.
   -- Adds git related signs to the gutter, as well as utilities for managing changes
   vim.pack.add { gh 'lewis6991/gitsigns.nvim' }
-  require('gitsigns').setup {
+  local gitsigns = require 'gitsigns'
+  gitsigns.setup {
     signs = {
       add = { text = '+' }, ---@diagnostic disable-line: missing-fields
       change = { text = '~' }, ---@diagnostic disable-line: missing-fields
@@ -376,6 +377,47 @@ do
       topdelete = { text = '‾' }, ---@diagnostic disable-line: missing-fields
       changedelete = { text = '~' }, ---@diagnostic disable-line: missing-fields
     },
+    -- Uncomment the following if you want to use gitsigns.nvim's recommended keymaps:
+    --
+    -- on_attach = function(bufnr)
+    --   -- Navigation
+    --   vim.keymap.set('n', ']c', function()
+    --     if vim.wo.diff then
+    --       vim.cmd.normal { ']c', bang = true }
+    --     else
+    --       gitsigns.nav_hunk 'next'
+    --     end
+    --   end, { desc = 'Jump to next git [c]hange' })
+    --
+    --   vim.keymap.set('n', '[c', function()
+    --     if vim.wo.diff then
+    --       vim.cmd.normal { '[c', bang = true }
+    --     else
+    --       gitsigns.nav_hunk 'prev'
+    --     end
+    --   end, { desc = 'Jump to previous git [c]hange' })
+    --
+    --   -- Visual mode actions
+    --   vim.keymap.set('v', '<leader>hs', function() gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' } end, { desc = 'git [s]tage hunk' })
+    --   vim.keymap.set('v', '<leader>hr', function() gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' } end, { desc = 'git [r]eset hunk' })
+    --   -- Normal mode actions
+    --   vim.keymap.set('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'git [s]tage hunk' })
+    --   vim.keymap.set('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'git [r]eset hunk' })
+    --   vim.keymap.set('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'git [S]tage buffer' })
+    --   vim.keymap.set('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'git [R]eset buffer' })
+    --   vim.keymap.set('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'git [p]review hunk' })
+    --   vim.keymap.set('n', '<leader>hi', gitsigns.preview_hunk_inline, { desc = 'git preview hunk [i]nline' })
+    --   vim.keymap.set('n', '<leader>hb', function() gitsigns.blame_line { full = true } end, { desc = 'git [b]lame line' })
+    --   vim.keymap.set('n', '<leader>hd', gitsigns.diffthis, { desc = 'git [d]iff against index' })
+    --   vim.keymap.set('n', '<leader>hD', function() gitsigns.diffthis '@' end, { desc = 'git [D]iff against last commit' })
+    --   vim.keymap.set('n', '<leader>hQ', function() gitsigns.setqflist 'all' end, { desc = 'git hunk [Q]uickfix list (all files in repo)' })
+    --   vim.keymap.set('n', '<leader>hq', gitsigns.setqflist, { desc = 'git hunk [q]uickfix list (all changes in this file)' })
+    --   -- Toggles
+    --   vim.keymap.set('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[T]oggle git show [b]lame line' })
+    --   vim.keymap.set('n', '<leader>tw', gitsigns.toggle_word_diff, { desc = '[T]oggle git intra-line [w]ord diff' })
+    --   -- Text object
+    --   vim.keymap.set({ 'o', 'x' }, 'ih', gitsigns.select_hunk)
+    -- end,
   }
 
   -- Useful plugin to show you pending keybinds.
@@ -729,7 +771,8 @@ do
           if path ~= vim.fn.stdpath 'config' and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then return end
         end
 
-        client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+        local current_settings = client.config.settings --[[@as lspconfig.settings.lua_ls]]
+        client.config.settings.Lua = vim.tbl_deep_extend('force', current_settings.Lua, {
           runtime = {
             version = 'LuaJIT',
             path = { 'lua/?.lua', 'lua/?/init.lua' },
@@ -738,10 +781,7 @@ do
             checkThirdParty = false,
             -- NOTE: this is a lot slower and will cause issues when working on your own configuration.
             --  See https://github.com/neovim/nvim-lspconfig/issues/3189
-            library = vim.tbl_extend('force', vim.api.nvim_get_runtime_file('', true), {
-              '${3rd}/luv/library',
-              '${3rd}/busted/library',
-            }),
+            library = vim.api.nvim_get_runtime_file('', true),
           },
         })
       end,
@@ -763,6 +803,11 @@ do
 
   -- Automatically install LSPs and related tools to stdpath for Neovim
   require('mason').setup {}
+
+  -- Translates between nvim-lspconfig server names and mason.nvim package names (e.g. lua_ls <-> lua-language-server)
+  require('mason-lspconfig').setup {
+    automatic_enable = false, -- Change this to true if you want to automatically enable servers that are installed manually (e.g. via :Mason / :MasonInstall)
+  }
 
   -- Ensure the servers and tools above are installed
   --
@@ -987,12 +1032,18 @@ do
   -- require 'kickstart.plugins.indent_line'
   -- require 'kickstart.plugins.lint'
   -- require 'kickstart.plugins.autopairs'
-     require 'kickstart.plugins.neo-tree'
-  -- require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
+  require 'kickstart.plugins.neo-tree'
 
-  -- NOTE: You can add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
+  -- NOTE: You can add your own plugins, configuration, etc. in `lua/custom/plugins/*.lua`.
   --
-  --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
+  -- `custom.plugins` automatically loads files from that directory, but their
+  -- order is unspecified. If plugins depend on each other, keep them in the same
+  -- file and put their `vim.pack.add()` and `setup()` calls in the required order.
+  --
+  -- If separate modules need a specific order, require them explicitly instead:
+  -- require 'custom.plugins.colorscheme'
+  -- require 'custom.plugins.ui'
+  -- require 'custom.plugins.git'
   require 'custom.plugins'
 end
 
