@@ -172,9 +172,10 @@ do
   -- See `:help 'confirm'`
   vim.o.confirm = true
 
-  -- PICO-8 carts, plus the .lua files they #include
+  -- Nunjucks templates, PICO-8 carts, plus the .lua files they #include
   vim.filetype.add {
     extension = {
+      njk = 'htmldjango',
       p8 = 'p8',
       lua = function(path)
         local cart = vim.fs.find(function(name) return name:match '%.p8$' end, {
