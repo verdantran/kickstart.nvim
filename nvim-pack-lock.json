@@ -47,14 +47,6 @@
       "src": "https://github.com/nvim-neo-tree/neo-tree.nvim",
       "version": ">=0.0.0"
     },
-    "neominimap.nvim": {
-      "rev": "0676085d898019f06044923934e38663f5efa290",
-      "src": "https://github.com/Isrothy/neominimap.nvim"
-    },
-    "nerdtree": {
-      "rev": "690d061b591525890f1471c6675bcb5bdc8cdff9",
-      "src": "https://github.com/preservim/nerdtree"
-    },
     "nui.nvim": {
       "rev": "de740991c12411b663994b2860f1a4fd0937c130",
       "src": "https://github.com/MunifTanjim/nui.nvim"
