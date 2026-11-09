@@ -172,21 +172,9 @@ do
   -- See `:help 'confirm'`
   vim.o.confirm = true
 
-  -- Nunjucks templates, PICO-8 carts, plus the .lua files they #include
   vim.filetype.add {
     extension = {
       njk = 'htmldjango',
-      p8 = 'p8',
-      lua = function(path)
-        local cart = vim.fs.find(function(name) return name:match '%.p8$' end, {
-          path = vim.fs.dirname(path),
-          upward = true,
-          stop = vim.env.HOME,
-          limit = 1,
-        })
-        -- Returning nil here would drop the builtin lua mapping, not fall through to it
-        return cart[1] and 'p8lua' or 'lua'
-      end,
     },
   }
 end
@@ -754,12 +742,6 @@ do
 
     stylua = {}, -- Used to format Lua code
 
-    pico8_ls = {
-      filetypes = { 'p8', 'p8lua' },
-      -- pico8-ls parses a whole cart vs. a bare chunk based on this id
-      get_language_id = function(_, ft) return ft == 'p8' and 'pico-8' or 'pico-8-lua' end,
-    },
-
     -- Special Lua Config, as recommended by neovim help docs
     lua_ls = {
       on_init = function(client)
@@ -964,9 +946,6 @@ do
   -- Ensure basic parsers are installed
   local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
   require('nvim-treesitter').install(parsers)
-
-  -- No usable pico8 grammar exists; lua covers everything but the dialect operators
-  vim.treesitter.language.register('lua', 'p8lua')
 
   ---@param buf integer
   ---@param language string
